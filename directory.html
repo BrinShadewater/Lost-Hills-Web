@@ -5,6 +5,141 @@
 <meta name="viewport" content="width=800">
 <title>Lost Hills Online :: Business Directory</title>
 <link rel="stylesheet" href="styles.css">
+<style>
+/* ─── Vintage 1993 Photo Popup ─── */
+#photo-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.65);
+  z-index: 8000;
+  align-items: center;
+  justify-content: center;
+}
+#photo-popup {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  box-shadow: 4px 4px 0 #000000;
+  max-width: 580px;
+  width: 90%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  position: relative;
+}
+#photo-popup-titlebar {
+  background: linear-gradient(to right, #000082, #1a7ed4);
+  color: #ffffff;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  user-select: none;
+  cursor: default;
+}
+#photo-popup-close {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  color: #000;
+  font-size: 10px;
+  font-weight: bold;
+  width: 18px;
+  height: 16px;
+  line-height: 1;
+  text-align: center;
+  padding: 0;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  flex-shrink: 0;
+}
+#photo-popup-close:active {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+#photo-popup-menubar {
+  background: #c0c0c0;
+  border-bottom: 1px solid #808080;
+  padding: 2px 6px;
+  font-size: 11px;
+  color: #333;
+}
+#photo-popup-menubar span {
+  padding: 1px 4px;
+  cursor: default;
+}
+#photo-popup-menubar span:hover { background: #000080; color: #fff; }
+#photo-popup-body {
+  padding: 8px;
+  background: #c8c0a8;
+  text-align: center;
+  border: 2px inset #808080;
+  margin: 6px;
+}
+#photo-popup-body img {
+  max-width: 100%;
+  max-height: 400px;
+  display: block;
+  margin: 0 auto;
+  border: 2px inset #505050;
+  background: #1a1a1a;
+}
+#photo-popup-loading {
+  color: #444;
+  font-family: "Courier New", monospace;
+  font-size: 11px;
+  padding: 20px 12px;
+}
+#photo-popup-cap {
+  padding: 4px 8px 2px 8px;
+  font-family: "Courier New", monospace;
+  font-size: 10px;
+  color: #333;
+  border-top: 1px solid #9a9070;
+  margin: 0 6px 4px 6px;
+  text-align: left;
+}
+#photo-popup-statusbar {
+  background: #c0c0c0;
+  border-top: 1px solid #808080;
+  padding: 2px 8px;
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  color: #444;
+  display: flex;
+  gap: 0;
+  align-items: center;
+}
+#photo-popup-statusbar .sp {
+  padding: 1px 8px 1px 0;
+  margin-right: 8px;
+  border-right: 1px solid #999;
+}
+.dir-photo-thumb {
+  cursor: pointer;
+  position: relative;
+}
+.dir-photo-thumb:hover .photo {
+  outline: 2px solid #000082;
+  opacity: 0.88;
+}
+.dir-photo-thumb .view-hint {
+  display: block;
+  text-align: center;
+  font-family: "Courier New", monospace;
+  font-size: 9px;
+  color: #556060;
+  margin-top: 2px;
+  letter-spacing: 0.04em;
+}
+.dir-photo-thumb:hover .view-hint {
+  color: #000082;
+  text-decoration: underline;
+}
+</style>
 <!--
   LOST HILLS ONLINE - CITY OF LOST HILLS MUNICIPAL NETWORK ARCHIVE
   Mirror node: CityNet/03 (restored from damaged backup, late 1990s)
@@ -51,7 +186,7 @@
       <h4>ARCHIVE STATUS</h4>
       <div class="sidebox"><span class="lbl">// mirror</span> citynet03<br><span class="lbl">// volume</span> B12 (degraded)<br><span class="lbl">// last sync</span> <span class="cor">unknown</span><br><span class="lbl">// integrity</span> partial</div>
       <h4>HELP</h4>
-      <div class="sidebox">Pages restored from backup may load slowly. Use your browser&#39;s <i>Reload</i> button if a notice appears blank.<br><br>Submit corrections to the <a href="contact.html">Clerk</a>.</div>
+      <div class="sidebox">Pages restored from backup may load slowly. Use your browser&#39;s <i>Reload</i> button if a notice appears blank.<br><br>Submit corrections to the <a href="contact.html">Clerk</a>.<br><br><span style="color:#507040; font-family:'Courier New',monospace; font-size:10px;">// click any storefront photo to view full archive image</span></div>
       <h4>CITY HOTLINE</h4>
       <div class="sidebox"><span class="lbl">// dial</span> 555&middot;LOST&middot;0<br><span class="lbl">// after hrs</span> see notice</div>
     </div>
@@ -71,22 +206,66 @@
         <span class="ttl">FOR THE PUBLIC</span>
         New listings or corrections may be filed at the <a href="contact.html">Clerk&#39;s Office</a>
         during posted hours. Listing in the directory does not constitute a municipal endorsement.
+        <span style="font-family:'Courier New',monospace; font-size:10px; color:#507040; display:block; margin-top:4px;">// storefront photos: click image to view full archive copy &mdash; citynet03 photo viewer</span>
       </div>
 
       <h3>Selected Storefronts (1992&ndash;1993 photo file)</h3>
       <div style="background:#dccfae; border:2px inset #b8b094; padding:8px;">
-        <div class="photocard inline tilt-l" style="width:200px;"><img class="photo" src="assets/lh_marquee_sm.jpg" alt="Silver Dream Theatre" width="200"><div class="cap"><span class="fn">// silver_dream_marquee.jpg</span> &middot; downtown Main St., the Silver Dream marquee</div></div>
-        <div class="photocard inline tilt-r" style="width:200px;"><img class="photo" src="assets/lh_noise_sm.jpg" alt="Noise Records" width="200"><div class="cap"><span class="fn">// noise_records_main_st.jpg</span> &middot; new &amp; used vinyl, cassettes, CDs, consignment</div></div>
-        <div class="photocard inline tilt-l" style="width:200px;"><img class="photo" src="assets/lh_megabyte_sm.jpg" alt="Megabyte Computers" width="200"><div class="cap"><span class="fn">// megabyte_tech_pine_st.jpg</span> &middot; computers &amp; modems, public access program partner</div></div>
-        <div class="photocard inline tilt-r" style="width:200px;"><img class="photo" src="assets/lh_plaza_sm.jpg" alt="North Lost Hills Plaza" width="200"><div class="cap"><span class="fn">// north_lost_hills_plaza.jpg</span> &middot; anchor tenants: Fat Boys Subs, Saigon Sisters, Auto World</div></div>
-        <div class="photocard inline tilt-l" style="width:200px;"><img class="photo" src="assets/lh_nwib_sm.jpg" alt="Northwestern Interstate Bank" width="200"><div class="cap"><span class="fn">// nwib_east_plaza.jpg</span> &middot; Northwestern Interstate Bank, 24-hour ATM lobby</div></div>
-        <div class="photocard inline tilt-r" style="width:200px;"><img class="photo" src="assets/lh_benthic_sm.jpg" alt="Benthic Gas &amp; Food Mart" width="200"><div class="cap"><span class="fn">// benthic_catfish_lake_rd.jpg</span> &middot; Benthic, 24 hr &middot; <span style="color:#a83a3a;">photographer not recorded</span></div></div>
-        <div class="photocard inline tilt-l" style="width:200px;"><img class="photo" src="assets/lh_sezzler_sm.jpg" alt="Sezzler Resort" width="200"><div class="cap"><span class="fn">// sezzler_main_entrance.jpg</span> &middot; Sezzler Conference Resort, main entry</div></div>
-        <div class="photocard inline tilt-r" style="width:200px;"><img class="photo" src="assets/lh_mofa_sm.jpg" alt="MOFA" width="200"><div class="cap"><span class="fn">// mofa_corridor_sculpture.jpg</span> &middot; MOFA exterior with <i>Corridor</i> sculpture</div></div>
-
-        <div class="photocard inline tilt-l" style="width:200px;"><img class="photo" src="assets/lh_burgerchef_sm.jpg" alt="Main Street downtown" width="200"><div class="cap"><span class="fn">// main_st_downtown_1992.jpg</span> &middot; Main St. looking north &middot; Ship Quick, Burger Chef, Book Haven</div></div>
-        <div class="photocard inline tilt-r" style="width:200px;"><img class="photo" src="assets/lh_burger_sm.jpg" alt="East side retail strip" width="200"><div class="cap"><span class="fn">// east_side_retail_1992.jpg</span> &middot; east side commercial strip &middot; mixed retail, <span style="color:#a83a3a;">two storefronts not in directory</span></div></div>
-        <div class="photocard inline tilt-l" style="width:200px;"><img class="photo" src="assets/lh_nwib2_sm.jpg" alt="Northwestern Interstate Bank branch" width="200"><div class="cap"><span class="fn">// nwib_branch_1992.jpg</span> &middot; Northwestern Interstate Bank, east branch &middot; 24-hour ATM &middot; <span style="color:#a83a3a;">branch status unknown</span></div></div>
+        <div class="photocard inline tilt-l dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_marquee.jpg','// silver_dream_marquee.jpg &middot; downtown Main St., the Silver Dream marquee &mdash; <span style=\'color:#a83a3a;\'>date of photo unverified</span>')">
+          <img class="photo" src="assets/lh_marquee_sm.jpg" alt="Silver Dream Theatre" width="200">
+          <div class="cap"><span class="fn">// silver_dream_marquee.jpg</span> &middot; downtown Main St., the Silver Dream marquee</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-r dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_noise.jpg','// noise_records_main_st.jpg &middot; new &amp; used vinyl, cassettes, CDs, consignment')">
+          <img class="photo" src="assets/lh_noise_sm.jpg" alt="Noise Records" width="200">
+          <div class="cap"><span class="fn">// noise_records_main_st.jpg</span> &middot; new &amp; used vinyl, cassettes, CDs, consignment</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-l dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_megabyte.jpg','// megabyte_tech_pine_st.jpg &middot; computers &amp; modems, public access program partner')">
+          <img class="photo" src="assets/lh_megabyte_sm.jpg" alt="Megabyte Computers" width="200">
+          <div class="cap"><span class="fn">// megabyte_tech_pine_st.jpg</span> &middot; computers &amp; modems, public access program partner</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-r dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_plaza.jpg','// north_lost_hills_plaza.jpg &middot; anchor tenants: Fat Boys Subs, Saigon Sisters, Auto World')">
+          <img class="photo" src="assets/lh_plaza_sm.jpg" alt="North Lost Hills Plaza" width="200">
+          <div class="cap"><span class="fn">// north_lost_hills_plaza.jpg</span> &middot; anchor tenants: Fat Boys Subs, Saigon Sisters, Auto World</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-l dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_nwib.jpg','// nwib_east_plaza.jpg &middot; Northwestern Interstate Bank, 24-hour ATM lobby')">
+          <img class="photo" src="assets/lh_nwib_sm.jpg" alt="Northwestern Interstate Bank" width="200">
+          <div class="cap"><span class="fn">// nwib_east_plaza.jpg</span> &middot; Northwestern Interstate Bank, 24-hour ATM lobby</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-r dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_benthic.jpg','// benthic_catfish_lake_rd.jpg &middot; Benthic, 24 hr &middot; <span style=\'color:#a83a3a;\'>photographer not recorded</span>')">
+          <img class="photo" src="assets/lh_benthic_sm.jpg" alt="Benthic Gas &amp; Food Mart" width="200">
+          <div class="cap"><span class="fn">// benthic_catfish_lake_rd.jpg</span> &middot; Benthic, 24 hr &middot; <span style="color:#a83a3a;">photographer not recorded</span></div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-l dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_sezzler.jpg','// sezzler_main_entrance.jpg &middot; Sezzler Conference Resort, main entry')">
+          <img class="photo" src="assets/lh_sezzler_sm.jpg" alt="Sezzler Resort" width="200">
+          <div class="cap"><span class="fn">// sezzler_main_entrance.jpg</span> &middot; Sezzler Conference Resort, main entry</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-r dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_mofa.jpg','// mofa_corridor_sculpture.jpg &middot; MOFA exterior with Corridor sculpture')">
+          <img class="photo" src="assets/lh_mofa_sm.jpg" alt="MOFA" width="200">
+          <div class="cap"><span class="fn">// mofa_corridor_sculpture.jpg</span> &middot; MOFA exterior with <i>Corridor</i> sculpture</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-l dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_burgerchef.jpg','// main_st_downtown_1992.jpg &middot; Main St. looking north &middot; Ship Quick, Burger Chef, Book Haven')">
+          <img class="photo" src="assets/lh_burgerchef_sm.jpg" alt="Main Street downtown" width="200">
+          <div class="cap"><span class="fn">// main_st_downtown_1992.jpg</span> &middot; Main St. looking north &middot; Ship Quick, Burger Chef, Book Haven</div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-r dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_burger.jpg','// east_side_retail_1992.jpg &middot; east side commercial strip &middot; mixed retail, <span style=\'color:#a83a3a;\'>two storefronts not in directory</span>')">
+          <img class="photo" src="assets/lh_burger_sm.jpg" alt="East side retail strip" width="200">
+          <div class="cap"><span class="fn">// east_side_retail_1992.jpg</span> &middot; east side commercial strip &middot; mixed retail, <span style="color:#a83a3a;">two storefronts not in directory</span></div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
+        <div class="photocard inline tilt-l dir-photo-thumb" style="width:200px;" onclick="openPhoto('assets/lh_nwib2.jpg','// nwib_branch_1992.jpg &middot; Northwestern Interstate Bank, east branch &middot; 24-hour ATM &middot; <span style=\'color:#a83a3a;\'>branch status unknown</span>')">
+          <img class="photo" src="assets/lh_nwib2_sm.jpg" alt="Northwestern Interstate Bank branch" width="200">
+          <div class="cap"><span class="fn">// nwib_branch_1992.jpg</span> &middot; Northwestern Interstate Bank, east branch &middot; 24-hour ATM &middot; <span style="color:#a83a3a;">branch status unknown</span></div>
+          <span class="view-hint">[ view full image ]</span>
+        </div>
       </div>
       <p style="font-family:'Courier New',monospace; font-size:10px; color:#5a4a3a; margin:4px 0 8px 0;">
         // photo files for the directory were digitized by Megabyte Computers under contract with the Clerk. Date of digitization not confirmed.
@@ -136,84 +315,4 @@
             <td>Family bakery since 1971. Glazed, cake, raised, fritters, cocoa, drip coffee.</td>
             <td>Open 04:30 daily. No archive incidents on file.</td></tr>
 
-        <tr id="megabyte"><td><b>Megabyte Computers</b><br><span style="font-size:10px;">16 North Plaza</span></td>
-            <td>Personal computers, modems, public access terminal program with the City of Lost Hills.</td>
-            <td class="corrupt">Customer reports a 14.4k modem dialing out by itself at 03:17 each night. Store has issued replacement.</td></tr>
-
-        <tr class="alt" id="zevi"><td><b>Zevi</b><br><span style="font-size:10px;">21 North Plaza</span></td>
-            <td>Clothing and denim retail. Pacific Northwest outfitting, workwear, casual wear, boots. Established 1981.</td>
-            <td class="corrupt">Storefront photographed at North Plaza 05/19/1993; not present on 05/20. Photographer requests removal.</td></tr>
-
-        <tr id="silver"><td><b>Silver Dream Theatre</b><br><span style="font-size:10px;">5 East Plaza</span></td>
-            <td>Two-screen cinema, marquee since 1959, Friday matinee discount.</td>
-            <td class="corrupt">Marquee showtimes posted ahead of release dates. Box office unable to honor printed schedule.</td></tr>
-
-        <tr class="alt" id="northplaza"><td><b>North Lost Hills Plaza</b><br><span style="font-size:10px;">North Plaza Center</span></td>
-            <td>Open-air shopping plaza; anchor tenant Jeff&#39;s Supermarket. Public CityNet terminal in central kiosk.</td>
-            <td class="corrupt">Storefront map for May 1993 conflicts with current signage. <span class="brokenimg"><span class="x">&times;</span><span class="fn">north_lost_hills_plaza_map_1993.gif</span></span></td></tr>
-
-        <tr id="jeffs"><td><b>Jeff&#39;s Supermarket</b><br><span style="font-size:10px;">North Plaza</span></td>
-            <td>Full-service grocery, deli, pharmacy, late hours. Public CityNet terminal in foyer.</td>
-            <td>"Weekly circular printed two weeks ahead since 05/17." (note added by clerk during later audit; audit date not in archive)</td></tr>
-
-        <tr class="alt" id="authentic"><td><b>Authentic Tech</b><br><span style="font-size:10px;">North Plaza, west wing</span></td>
-            <td>Audio-visual retail, TVs, VCRs, camcorders. SASC public-floor exhibitor.</td>
-            <td class="corrupt">VHS tapes returned after 05/19 contain footage that was not recorded by the customer.</td></tr>
-
-        <tr id="auto"><td><b>Auto World</b><br><span style="font-size:10px;">Old Mill Rd</span></td>
-            <td>New &amp; used vehicles, service bay, parts counter. Family business since 1962.</td>
-            <td>Customer odometer disputes filed: 4 (May 1993). Awaiting Clerk review.</td></tr>
-
-        <tr class="alt" id="saigon"><td><b>Saigon Sisters Restaurant</b><br><span style="font-size:10px;">17 East Plaza</span></td>
-            <td>Family Vietnamese restaurant, pho specialty, lunch + dinner. Closed Tuesdays.</td>
-            <td>Owner reports the same guest at table 4 four evenings running, paying with bills dated 1989.</td></tr>
-
-        <tr id="fatboys"><td><b>Fat Boys Subs</b><br><span style="font-size:10px;">6 North Plaza</span></td>
-            <td>Hot subs, cold subs, root beer on tap, party trays.</td>
-            <td>Conference catering award, May 1993 (Sezzler Pavilion C).</td></tr>
-
-        <tr class="alt" id="newspaper"><td><b>The Lost Hills newspaper</b><br><span style="font-size:10px;">9 Civic Center Way</span></td>
-            <td>Paper of record since 1902. Daily edition Mon&ndash;Sat; Sunday review.</td>
-            <td class="corrupt">Print suspended 199?. Online archive incomplete. <a href="news.html">See archive</a>.</td></tr>
-
-        <tr id="klhl"><td><b>KLHL 1240 AM</b><br><span style="font-size:10px;">Civic Center Way</span></td>
-            <td>Public radio, civic bulletins, agricultural reports, evening jazz.</td>
-            <td class="corrupt">Dead-air segment 03:17&ndash;03:18, every night since 05/18/1993. Engineer unable to locate cause.</td></tr>
-
-        <tr class="alt"><td colspan="3" class="removed"><i>Additional listings withheld pending Clerk review. Re-restored entries are not yet displayed.</i></td></tr>
-      </table>
-
-      <hr class="civic">
-
-      <h3>Civic Partners</h3>
-      <p>
-        <a class="bevel" href="shadewater.html">[ Shadewater Labs ]</a>
-        <a class="bevel" href="sezzler.html">[ Sezzler Resort ]</a>
-        <a class="bevel" href="#nwib">[ Northwestern Interstate Bank ]</a>
-        <a class="bevel" href="#megabyte">[ Megabyte Computers ]</a>
-        <a class="bevel" href="#newspaper">[ The Lost Hills newspaper ]</a>
-      </p>
-
-      <p style="font-family:'Courier New',monospace; font-size:10px; color:#5a4a3a;">
-        <span class="under">UNDER CONSTRUCTION</span> &nbsp; The directory&#39;s "Archive Note" column
-        was added during a later audit and is not part of the original printed directory. Some
-        entries appear to have been re-added after deletion.
-      </p>
-
-    </div>
-  </div>
-
-  <div class="footer">
-    <div class="row">
-      <div class="col"><b>Lost Hills Online</b> &middot; CityNet pilot since 05.17.1993<br>
-        <span style="font-family:'Courier New',monospace; color:#444;">last updated: ?? / ?? / 199? &nbsp;&middot;&nbsp; mirror: citynet03 &nbsp;&middot;&nbsp; backup: B12</span>
-      </div>
-      <div class="col right badges">
-        <span class="badge" style="background:#2a3950;"><span class="b1">SHADEWATER</span><span class="b2">CIVIC PARTNER</span></span>
-        <span class="badge" style="background:#4a3a2a;"><span class="b1">MEGABYTE</span><span class="b2">PUBLIC ACCESS</span></span>
-        <span class="badge" style="background:#2f4a3a;"><span class="b1">CITYNET 1993</span><span class="b2">THE FUTURE WORKS HERE</span></span>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col"><span style="font-family:'Courier New',monospace; font-size:10px; color:#444;">&copy; 199? City of Lost Hills, WA &middot; All notices subject to Clerk review &middot; <a href="contact.html">Report archive errors</a></span></div>
-      <div class="col right"><span style="font-family:'Courier New',monospace; font-size:10px; color:#444;">[ <a href="links.html">Local Links</a> ] [ <a href="news.html">News</a> ] [ <a href="contact.html">Clerk</a> ]</s
+        <tr id="megabyte"><td><b>Megabyte Comput
