@@ -158,4 +158,124 @@
 
     var HR = '--------------------------------------------------';
     function row(label, value, cls) {
-      var dots = '..................................'.slice(
+      var dots = '..................................'.slice(0, Math.max(4, 36 - label.length));
+      return { c: cls || '', t: label + ' ' + dots + ' ' + value };
+    }
+
+    var lines = [
+      { c: 'dim', t: HR },
+      { c: 'brt', t: 'SHADEWATER APPLIED SYSTEMS' },
+      { c: 'hl',  t: 'EACS v1.1  --  EMERGENCY ARCHIVE CONTINUITY SYSTEM' },
+      { c: '',    t: 'Lost Hills Municipal Network  --  node: citynet03' },
+      { c: 'dim', t: HR, pause: 200 },
+      { c: '',    t: '' },
+      row('POWER RESTORE',            'OK'),
+      row('CHECKING TAPE VOLUME B12', 'DEGRADED'),
+      row('ARCHIVE INDEX',            'PARTIAL RESTORE'),
+      row('NETWORK PROBE',            'CONTACT DETECTED'),
+      row('SOURCE VERIFICATION',      'NOT ON PERSONNEL LIST',    'warn'),
+      row('CLERK REMOVAL FLAG',       'SET -- IGNORED BY BACKUP', 'err'),
+      { c: '',    t: '', pause: 300 },
+      { c: 'warn',t: 'LAST CHECKPOINT: 05.22.1993  03:17:04 PDT', pause: 180 },
+      { c: 'warn',t: 'DAYS IN STANDBY: ' + dom.days.toLocaleString() + '  (' + dom.years + ' years)', pause: 600 },
+      { c: '',    t: '' },
+      { c: 'err', t: '[ MAY21_FINAL_DEMO ] ................... SUPPRESSED', pause: 200 },
+      { c: '',    t: '' },
+      { c: 'brt', t: 'RESUMING BROADCAST ............... OPENING ARCHIVE' },
+      { c: 'dim', t: HR }
+    ];
+
+    var idx  = 0;
+    var BASE = 220;
+
+    function addLine() {
+      if (idx >= lines.length) {
+        var cur = document.createElement('span');
+        cur.className   = 'eacs-cur';
+        cur.textContent = '.';
+        terminal.appendChild(cur);
+        var blink = 0;
+        var blinkInterval = setInterval(function() {
+          blink++;
+          cur.style.opacity = blink % 2 === 0 ? '1' : '0.2';
+          if (blink >= 6) {
+            clearInterval(blinkInterval);
+            cur.style.opacity = '1';
+            setTimeout(function () {
+              overlay.style.opacity = '0';
+              setTimeout(function () {
+                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+              }, 1500);
+            }, 1000);
+          }
+        }, 300);
+        return;
+      }
+      var line = lines[idx];
+      var div  = document.createElement('div');
+      if (line.c) div.className = line.c;
+      div.textContent = line.t;
+      terminal.appendChild(div);
+      overlay.scrollTop = overlay.scrollHeight;
+      idx++;
+      setTimeout(addLine, BASE + (line.pause || 0));
+    }
+
+    setTimeout(addLine, 400);
+  });
+
+  // Auto-wire all photocard elements to open the photo viewer on click
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.photocard').forEach(function (card) {
+      var img = card.querySelector('img.photo');
+      if (!img) return;
+      var cap = card.querySelector('.cap');
+      var capText = cap ? cap.innerHTML : '';
+      card.style.cursor = 'zoom-in';
+      card.addEventListener('click', function (e) {
+        e.preventDefault();
+        window.openPhoto(img.src, capText);
+      });
+    });
+  });
+
+  // Vintage 1993 Photo Viewer -- citynet03 B12 Archive
+  window.openPhoto = function(imageSrc, caption) {
+    var overlay = document.getElementById('photo-overlay');
+    var img = document.getElementById('photo-popup-img');
+    var loadingDiv = document.getElementById('photo-popup-loading');
+    var capDiv = document.getElementById('photo-popup-cap');
+    var dimsSpan = document.getElementById('photo-popup-dims');
+
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    overlay.style.animation = 'none';
+    setTimeout(function() { overlay.style.animation = 'fadeIn 0.2s ease'; }, 10);
+    loadingDiv.style.display = 'block';
+    img.style.display = 'none';
+    img.style.opacity = '0';
+    capDiv.innerHTML = caption || '';
+    dimsSpan.textContent = 'retrieving...';
+
+    var tempImg = new Image();
+    tempImg.onload = function() {
+      img.src = imageSrc;
+      img.style.display = 'block';
+      setTimeout(function() { img.style.opacity = '1'; }, 10);
+      loadingDiv.style.display = 'none';
+      dimsSpan.textContent = tempImg.width + ' × ' + tempImg.height + ' px';
+    };
+    tempImg.onerror = function() {
+      loadingDiv.textContent = '// archive read error';
+      dimsSpan.textContent = 'ERROR';
+    };
+    tempImg.src = imageSrc;
+  };
+
+  window.closePhoto = function() {
+    var overlay = document.getElementById('photo-overlay');
+    if (overlay) overlay.style.display = 'none';
+  };
+
+})();

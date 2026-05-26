@@ -1,0 +1,32 @@
+# robots.txt
+# Lost Hills Online — CityNet Municipal Archive
+# node: citynet03 | volume: B12 (degraded)
+# last updated: ?? / ?? / 199?
+#
+# NOTE: /restricted/ documents are accessible via internal navigation.
+# Automated indexing of restricted records is not authorized by the Clerk's Office.
+# EACS override does not apply to external crawl policy.
+
+User-agent: *
+Allow: /
+Disallow: /restricted/
+
+User-agent: GPTBot
+Disallow: /restricted/
+
+User-agent: ClaudeBot
+Disallow: /restricted/
+
+User-agent: PerplexityBot
+Disallow: /restricted/
+
+User-agent: Google-Extended
+Disallow: /restricted/
+
+User-agent: Bytespider
+Disallow: /restricted/
+
+User-agent: CCBot
+Disallow: /restricted/
+
+Sitemap: https://losthills.net/sitemap.xml
