@@ -1,5 +1,5 @@
 <!DOCTYPE html><html><head><meta charset="utf-8">
-<meta name="viewport" content="width=800">
+<meta name="viewport" content="width=1000">
 <title>Lost Hills Online :: Local Links</title>
 <link rel="stylesheet" href="styles.css">
 <!-- LOST HILLS ONLINE
@@ -79,7 +79,7 @@
       <table class="grey">
         <tr><th>Link</th><th>Description</th><th style="width:60px;">Status</th></tr>
         <tr><td><a href="shadewater.html">Shadewater Laboratories</a></td><td>Civic technology &amp; applied systems</td><td style="color:#a0820a;">partial</td></tr>
-        <tr class="alt"><td><a href="sezzler.html">Sezzler Hotels &amp; Resorts</a></td><td>Lost Hills Conference Resort</td><td style="color:#1a4a1a;">live</td></tr>
+        <tr class="alt"><td><a href="sezzler.html">Sezzler Hotel &amp; Resort</a></td><td>Lost Hills Conference Resort</td><td style="color:#1a4a1a;">live</td></tr>
         <tr><td><a href="#">Northwestern Interstate Bank</a></td><td>Civic finance &amp; ATM modernization</td><td style="color:#1a4a1a;">live</td></tr>
         <tr class="alt"><td><a href="#">Megabyte Computers</a></td><td>Public access terminals; modems</td><td style="color:#1a4a1a;">live</td></tr>
         <tr><td><a href="#">The Lost Hills newspaper</a></td><td>Paper of record &mdash; print suspended 199?</td><td style="color:#a0820a;">partial</td></tr>
@@ -147,6 +147,30 @@
     </div>
   </div>
 </div>
+  <!-- ─── Vintage 1993 CityNet Photo Viewer ─── -->
+  <div id="photo-overlay" onclick="if(event.target===this)closePhoto()">
+    <div id="photo-popup">
+      <div id="photo-popup-titlebar">
+        <span>&#128247; &nbsp;CityNet Photo Viewer &mdash; citynet03 / B12 Archive</span>
+        <button id="photo-popup-close" onclick="closePhoto()" title="Close">&#xd7;</button>
+      </div>
+      <div id="photo-popup-menubar">
+        <span>File</span>&nbsp;<span>View</span>&nbsp;<span>Help</span>
+      </div>
+      <div id="photo-popup-body">
+        <div id="photo-popup-loading">// retrieving from archive&hellip;</div>
+        <img id="photo-popup-img" src="" alt="" style="display:none;">
+      </div>
+      <div id="photo-popup-cap"></div>
+      <div id="photo-popup-statusbar">
+        <span class="sp">citynet03</span>
+        <span class="sp">vol: B12 (degraded)</span>
+        <span id="photo-popup-dims">Ready</span>
+      </div>
+    </div>
+  </div>
+
 <script src="site.js"></script>
 </body>
 </html>
+  

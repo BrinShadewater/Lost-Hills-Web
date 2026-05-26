@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=800">
+<meta name="viewport" content="width=1000">
 <title>Lost Hills Online :: 1993 Systems Conference</title>
 <link rel="stylesheet" href="styles.css">
 <!-- EACS/SHADEWATER REMOTE EDIT LOG
@@ -144,6 +144,25 @@
         </div>
       </div>
 
+      <!-- SASC Expo Floor -->
+      <div class="photocard" style="margin-top:12px; margin-bottom:10px;">
+        <img class="photo" src="assets/sasc-expo.jpg" alt="SASC 1993 Expo Floor" style="width:100%;max-width:620px;">
+        <div class="cap"><span class="fn">// sasc_expo_floor_051793.jpg</span> &middot; Shadewater Applied Systems Conference expo floor, main halls and pavilions &middot; May 17-21, 1993 &middot; <span style="color:#a83a3a;">archived to B12</span></div>
+      </div>
+
+      <!-- SYSTEM ALERT: Final Day Timeline -->
+      <div class="notice warn" style="margin-bottom:12px;">
+        <span class="ttl">FINAL DAY ARCHIVE NOTE (May 21, 1993)</span>
+        The final scheduled demonstration was set to begin at 09:00 in the Sezzler Main Hall,
+        combining the Horizon Mapping System, Lattice Relay System, and Corridor Imaging Prototype
+        in an integrated presentation. The demonstration was open to all conference delegates and
+        registered members of the public. <span class="cor">[record withdrawn at Shadewater request]</span>
+        <br><br>
+        At 03:17 PDT, May 22 — approximately 18 hours after the final day began — the CityNet archive
+        unexpectedly entered emergency standby. All connected systems, including this one, were frozen
+        in their current state. The cause remains undocumented.
+      </div>
+
       <h3>About the Conference</h3>
       <p>
         The Shadewater Applied Systems Conference (SASC) is a five-day civic technology expo
@@ -223,7 +242,7 @@
         <tr><td>Shadewater Laboratories</td><td>Main Hall A1&ndash;A8</td><td>Civic systems, imaging, applied research</td></tr>
         <tr class="alt"><td>Megabyte Computers</td><td>Main Hall B1&ndash;B4</td><td>Public access terminals; networking</td></tr>
         <tr><td>Northwestern Interstate Bank</td><td>Pavilion A</td><td>Civic finance, ATM modernization</td></tr>
-        <tr class="alt"><td>Sezzler Hotels &amp; Resorts</td><td>Lobby + Pavilion C</td><td>Hospitality systems, smart elevators</td></tr>
+        <tr class="alt"><td>Sezzler Hotel &amp; Resort</td><td>Lobby + Pavilion C</td><td>Hospitality systems, smart elevators</td></tr>
         <tr><td>Authentic Tech</td><td>Pavilion C</td><td>Audio-visual; consumer electronics</td></tr>
         <tr class="alt"><td>Benthic Gas &amp; Food Mart</td><td>Outdoor lot</td><td>Catfish Lake permit issuance demo</td></tr>
         <tr><td>Lost Hills Public Library</td><td>Pavilion A</td><td>Archive digitization showcase</td></tr>
@@ -368,6 +387,14 @@
   </div>
 
 </div><!-- /shell -->
-<script src="site.js"></script>
-</body>
-</html>
+  <!-- Vintage 1993 CityNet Photo Viewer -->
+  <div id="photo-overlay" onclick="if(event.target===this)closePhoto()">
+    <div id="photo-popup">
+      <div id="photo-popup-titlebar">
+        <span>&#128247; &nbsp;CityNet Photo Viewer — citynet03 / B12 Archive</span>
+        <button id="photo-popup-close" onclick="closePhoto()" title="Close">×</button>
+      </div>
+      <div id="photo-popup-menubar">
+        <span>File</span>&nbsp;<span>View</span>&nbsp;<span>Help</span>
+      </div>
+    

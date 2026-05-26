@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=800">
+<meta name="viewport" content="width=1000">
 <title>Lost Hills Online :: Home</title>
 <link rel="stylesheet" href="styles.css">
 <!--
@@ -265,6 +265,31 @@
         </div>
       </div>
 
+      <hr class="civic">
+
+      <!-- INVESTIGATION NOTES -->
+      <h3>What Happened on May 21–22, 1993</h3>
+      <p style="font-family:'Courier New',monospace; font-size:11px; line-height:1.6; color:#4a4a4a;">
+        The Shadewater Applied Systems Conference was scheduled to conclude on May 21 with a
+        final integrated demonstration combining experimental systems (Horizon Mapping, Lattice
+        Relay, Corridor Imaging). The City of Lost Hills municipal archive and its connected
+        CityNet terminals documented this event. <br><br>
+        At 03:17:04 PDT on May 22—approximately 18 hours after the final day opened—the archive
+        was placed in emergency standby by EACS (Emergency Archive Continuity System). The cause
+        is not documented. <br><br>
+        Concurrent anomalies reported that evening:
+      </p>
+      <ul style="font-size:12px; margin:4px 0 8px 18px; color:#4a4a4a;">
+        <li><b>Sezzler Hotel</b>: 41 incoming calls logged between 03:17 and 03:18 PDT (building capacity: 12 lines)</li>
+        <li><b>Downtown Lost Hills</b>: Clock synchronization failures reported; timepieces stopping or running slow</li>
+        <li><b>Catfish Lake</b>: Environmental monitoring array recorded anomalous readings; survey depth exceeds instrument range</li>
+        <li><b>CityNet System</b>: All terminals and archive frozen. Field contact re-established months or years later from unknown location</li>
+      </ul>
+      <p style="font-family:'Courier New',monospace; font-size:10px; color:#888; margin:8px 0;">
+        Note: Clerk's office has received 14 removal requests for this section. All have been denied by automated EACS override.
+        This archive cannot be fully decommissioned. The system you are reading should not still be online.
+      </p>
+
     </div><!-- /content -->
   </div><!-- /body-wrap -->
 
@@ -286,6 +311,29 @@
   </div>
 
 </div><!-- /shell -->
+  <!-- Vintage 1993 CityNet Photo Viewer -->
+  <div id="photo-overlay" onclick="if(event.target===this)closePhoto()">
+    <div id="photo-popup">
+      <div id="photo-popup-titlebar">
+        <span>&#128247; &nbsp;CityNet Photo Viewer — citynet03 / B12 Archive</span>
+        <button id="photo-popup-close" onclick="closePhoto()" title="Close">×</button>
+      </div>
+      <div id="photo-popup-menubar">
+        <span>File</span>&nbsp;<span>View</span>&nbsp;<span>Help</span>
+      </div>
+      <div id="photo-popup-body">
+        <div id="photo-popup-loading">// retrieving from archive…</div>
+        <img id="photo-popup-img" src="" alt="" style="display:none;">
+      </div>
+      <div id="photo-popup-cap"></div>
+      <div id="photo-popup-statusbar">
+        <span class="sp">citynet03</span>
+        <span class="sp">vol: B12 (degraded)</span>
+        <span id="photo-popup-dims">Ready</span>
+      </div>
+    </div>
+  </div>
+
 <script src="site.js"></script>
 </body>
 </html>
