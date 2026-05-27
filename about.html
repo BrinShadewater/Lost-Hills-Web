@@ -18,7 +18,7 @@
   Catfish Lake survey depth exceeds instrument range
 
 -->
-<link href="https://losthills.net/about.html" rel="canonical"/><meta content="website" property="og:type"/><meta content="https://losthills.net/about.html" property="og:url"/><meta content="Lost Hills Online :: About Lost Hills" property="og:title"/><meta content="City of Lost Hills, Washington — civic history, geography, and public records. Population 11,402. Incorporated 1889. Archive restored from degraded backup volume B12." property="og:description"/><meta content="https://losthills.net/assets/lh_panorama.jpg" property="og:image"/><meta content="Lost Hills Online" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Lost Hills Online :: About Lost Hills" name="twitter:title"/><meta content="City of Lost Hills, Washington — civic history, geography, and public records. Population 11,402. Incorporated 1889. Archive restored from degraded backup volume B12." name="twitter:description"/><meta content="https://losthills.net/assets/lh_panorama.jpg" name="twitter:image"/></head>
+<link href="https://losthills.net/about.html" rel="canonical"/><meta content="website" property="og:type"/><meta content="https://losthills.net/about.html" property="og:url"/><meta content="Lost Hills Online :: About Lost Hills" property="og:title"/><meta content="City of Lost Hills, Washington — civic history, geography, and public records. Population 11,402. Incorporated 1889. Archive restored from degraded backup volume B12." property="og:description"/><meta content="https://losthills.net/assets/lh_panorama.jpg" property="og:image"/><meta content="Lost Hills Online" property="og:site_name"/><meta content="summary_large_image" name="twitter:card"/><meta content="Lost Hills Online :: About Lost Hills" name="twitter:title"/><meta content="City of Lost Hills, Washington — civic history, geography, and public records. Population 11,402. Incorporated 1889. Archive restored from degraded backup volume B12." name="twitter:description"/><meta content="https://losthills.net/assets/lh_panorama.jpg" name="twitter:image"/><link href="favicon.ico" rel="icon" type="image/x-icon"/><link href="apple-touch-icon.png" rel="apple-touch-icon"/></head>
 <body>
 <div class="shell">
 <div class="banner">
@@ -272,9 +272,26 @@
 </div>
 </div>
 </div>
-<!-- ─── Vintage 1993 CityNet Photo Viewer ─── -->
+<!-- Vintage 1993 CityNet Photo Viewer -->
 <div id="photo-overlay" onclick="if(event.target===this)closePhoto()">
 <div id="photo-popup">
 <div id="photo-popup-titlebar">
-<span>📷  CityNet Photo Viewer — citynet03 / B12 Archive</span>
-</div></div></div></div></body></html>
+<span>📷 CityNet Photo Viewer — citynet03 / B12 Archive</span>
+<button id="photo-popup-close" onclick="closePhoto()" title="Close">×</button>
+</div>
+<div id="photo-popup-menubar">
+<span>File</span> <span>View</span> <span>Help</span>
+</div>
+<div id="photo-popup-body">
+<div id="photo-popup-loading">// retrieving from archive…</div>
+<img alt="" id="photo-popup-img" src="" style="display:none;"/>
+</div>
+<div id="photo-popup-cap"></div>
+<div id="photo-popup-statusbar">
+<span class="sp">citynet03</span>
+<span class="sp">vol: B12 (degraded)</span>
+<span id="photo-popup-dims">Ready</span>
+</div>
+</div>
+</div>
+</div></body></html>
