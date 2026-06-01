@@ -334,9 +334,10 @@
       });
     });
 
-    // General photocards (skip webcam grid)
+    // General photocards (skip webcam grid and directory gallery cards)
     document.querySelectorAll('.photocard').forEach(function (card) {
       if (card.closest('.webcam-grid')) return;
+      if (card.classList.contains('dir-photo-thumb')) return;
       var img = card.querySelector('img.photo');
       if (!img) return;
       var cap = card.querySelector('.cap');
@@ -350,6 +351,26 @@
         window.openPhoto(img.src, capText);
       });
     });
+    // Directory storefronts: wire as scrollable gallery
+    var dirCards = document.querySelectorAll('.dir-photo-thumb');
+    if (dirCards.length > 1) {
+      var dirGallery = [];
+      dirCards.forEach(function (card) {
+        var img = card.querySelector('img.photo');
+        var cap = card.querySelector('.cap');
+        if (img) dirGallery.push({ src: img.src, cap: cap ? cap.innerHTML : '' });
+      });
+      dirCards.forEach(function (card, i) {
+        var fresh = card.cloneNode(true);
+        card.parentNode.replaceChild(fresh, card);
+        fresh.style.cursor = 'zoom-in';
+        fresh.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.openPhotoGallery(dirGallery, i);
+        });
+      });
+    }
   });
 
   // Vintage 1993 Photo Viewer -- citynet03 B12 Archive
