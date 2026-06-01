@@ -265,4 +265,143 @@
     var cap = document.getElementById('photo-popup-cap');
     if (!cap) return;
     var nav = document.createElement('div');
-    
+    nav.id        = 'photo-popup-nav';
+    nav.style.display = 'none';
+    nav.innerHTML =
+      '<button id="photo-popup-prev" onclick="prevPhoto()">◄ PREV</button>' +
+      '<span id="photo-popup-nav-counter"></span>' +
+      '<button id="photo-popup-next" onclick="nextPhoto()">NEXT ►</button>';
+    cap.parentNode.insertBefore(nav, cap);
+  }
+
+  function _refreshNav() {
+    var nav     = document.getElementById('photo-popup-nav');
+    var counter = document.getElementById('photo-popup-nav-counter');
+    if (!nav) return;
+    nav.style.display = _gallery.length > 1 ? 'flex' : 'none';
+    if (counter) counter.textContent = (_galleryIdx + 1) + ' / ' + _gallery.length;
+  }
+
+  // Auto-wire all photocard elements to open the photo viewer on click
+  document.addEventListener('DOMContentLoaded', function () {
+    _ensureOverlay();
+    _injectNavBar();
+
+    // ── Webcam grid: gallery navigation ────────────────────────────────────
+    var wcGrid = document.querySelector('.webcam-grid');
+    if (wcGrid) {
+      var wcImgs = wcGrid.querySelectorAll('.wc .photocard img.photo');
+      var wcPhotos = [];
+      wcImgs.forEach(function (img) {
+        // Prefer the full caption from the onclick attribute (has timestamp + status);
+        // fall back to the card .cap div if onclick is absent.
+        var fullCap = '';
+        var onclickAttr = img.getAttribute('onclick') || '';
+        var match = onclickAttr.match(/openPhoto\([^,]+,\s*'([\s\S]*)'\s*\)\s*$/);
+        if (match) {
+          fullCap = match[1].replace(/\\'/g, "'");
+        } else {
+          var card  = img.closest('.photocard');
+          var capEl = card ? card.querySelector('.cap') : null;
+          fullCap   = capEl ? capEl.innerHTML : '';
+        }
+        wcPhotos.push({ src: img.src, cap: fullCap });
+      });
+      wcImgs.forEach(function (img, i) {
+        img.removeAttribute('onclick');
+        var card = img.closest('.photocard');
+        if (card) {
+          // Replace any existing click listener by cloning; then add ours
+          var fresh = card.cloneNode(true);
+          card.parentNode.replaceChild(fresh, card);
+          fresh.style.cursor = 'zoom-in';
+          fresh.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.openPhotoGallery(wcPhotos, i);
+          });
+        }
+      });
+    }
+
+    // ── Sidebar / content ads: open enlarged instead of navigating ─────────
+    document.querySelectorAll('.lh-bizcard, .lh-promo').forEach(function (ad) {
+      ad.addEventListener('click', function (e) {
+        e.preventDefault();
+        var img   = ad.querySelector('img');
+        if (!img) return;
+        var title = ad.getAttribute('title') || img.getAttribute('alt') || 'Advertisement';
+        _gallery    = [];
+        _galleryIdx = 0;
+        _refreshNav();
+        window.openPhoto(img.src, '// ' + title);
+      });
+    });
+
+    // ── General photocards (skip webcam grid — handled above) ───────────────
+    document.querySelectorAll('.photocard').forEach(function (card) {
+      if (card.closest('.webcam-grid')) return; // already wired
+      var img = card.querySelector('img.photo');
+      if (!img) return;
+      var cap = card.querySelector('.cap');
+      var capText = cap ? cap.innerHTML : '';
+      card.style.cursor = 'zoom-in';
+      card.addEventListener('click', function (e) {
+        e.preventDefault();
+        _gallery    = [];
+        _galleryIdx = 0;
+        _refreshNav();
+        window.openPhoto(img.src, capText);
+      });
+    });
+  });
+
+  // Vintage 1993 Photo Viewer -- citynet03 B12 Archive
+  window.openPhoto = function (imageSrc, caption) {
+    _ensureOverlay();
+    _injectNavBar();
+
+    var overlay    = document.getElementById('photo-overlay');
+    var img        = document.getElementById('photo-popup-img');
+    var loadingDiv = document.getElementById('photo-popup-loading');
+    var capDiv     = document.getElementById('photo-popup-cap');
+    var dimsSpan   = document.getElementById('photo-popup-dims');
+
+    if (!overlay) return;
+
+    overlay.style.display = 'flex';
+    overlay.style.animation = 'none';
+    setTimeout(function () { overlay.style.animation = 'fadeIn 0.2s ease'; }, 10);
+    loadingDiv.style.display = 'block';
+    img.style.display = 'none';
+    img.style.opacity = '0';
+    capDiv.innerHTML = caption || '';
+    dimsSpan.textContent = 'retrieving...';
+
+    _refreshNav();
+
+    var tempImg = new Image();
+    tempImg.onload = function () {
+      img.src = imageSrc;
+      img.style.display = 'block';
+      setTimeout(function () { img.style.opacity = '1'; }, 10);
+      loadingDiv.style.display = 'none';
+      dimsSpan.textContent = tempImg.width + ' × ' + tempImg.height + ' px';
+    };
+    tempImg.onerror = function () {
+      loadingDiv.textContent = '// archive read error';
+      dimsSpan.textContent = 'ERROR';
+    };
+    tempImg.src = imageSrc;
+  };
+
+  window.openPhotoGallery = function (photos, idx) {
+    _gallery    = photos;
+    _galleryIdx = idx;
+    window.openPhoto(photos[idx].src, photos[idx].cap);
+  };
+
+  window.prevPhoto = function () {
+    if (_gallery.length < 2) return;
+    _galleryIdx = (_galleryIdx - 1 + _gallery.length) % _gallery.length;
+    window.openPhoto(_gallery[_
