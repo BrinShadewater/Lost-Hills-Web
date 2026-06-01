@@ -236,8 +236,8 @@
     ov.innerHTML =
       '<div id="photo-popup">' +
         '<div id="photo-popup-titlebar">' +
-          '<span>📷  CityNet Photo Viewer — citynet03 / B12 Archive</span>' +
-          '<button id="photo-popup-close" onclick="closePhoto()" title="Close">×</button>' +
+          '<span>📷  CityNet Photo Viewer — citynet03 / B12 Archive</span>' +
+          '<button id="photo-popup-close" onclick="closePhoto()" title="Close">\xd7</button>' +
         '</div>' +
         '<div id="photo-popup-menubar"><span>File</span> <span>View</span> <span>Help</span></div>' +
         '<div id="photo-popup-body">' +
@@ -260,12 +260,11 @@
   }
 
   function _injectNavBar() {
-    // Add nav bar to existing overlays that were baked into HTML
     if (document.getElementById('photo-popup-nav')) return;
     var cap = document.getElementById('photo-popup-cap');
     if (!cap) return;
     var nav = document.createElement('div');
-    nav.id        = 'photo-popup-nav';
+    nav.id = 'photo-popup-nav';
     nav.style.display = 'none';
     nav.innerHTML =
       '<button id="photo-popup-prev" onclick="prevPhoto()">◄ PREV</button>' +
@@ -287,14 +286,12 @@
     _ensureOverlay();
     _injectNavBar();
 
-    // ── Webcam grid: gallery navigation ────────────────────────────────────
+    // Webcam grid: gallery navigation
     var wcGrid = document.querySelector('.webcam-grid');
     if (wcGrid) {
       var wcImgs = wcGrid.querySelectorAll('.wc .photocard img.photo');
       var wcPhotos = [];
       wcImgs.forEach(function (img) {
-        // Prefer the full caption from the onclick attribute (has timestamp + status);
-        // fall back to the card .cap div if onclick is absent.
         var fullCap = '';
         var onclickAttr = img.getAttribute('onclick') || '';
         var match = onclickAttr.match(/openPhoto\([^,]+,\s*'([\s\S]*)'\s*\)\s*$/);
@@ -311,7 +308,6 @@
         img.removeAttribute('onclick');
         var card = img.closest('.photocard');
         if (card) {
-          // Replace any existing click listener by cloning; then add ours
           var fresh = card.cloneNode(true);
           card.parentNode.replaceChild(fresh, card);
           fresh.style.cursor = 'zoom-in';
@@ -324,7 +320,7 @@
       });
     }
 
-    // ── Sidebar / content ads: open enlarged instead of navigating ─────────
+    // Sidebar / content ads: open enlarged instead of navigating
     document.querySelectorAll('.lh-bizcard, .lh-promo').forEach(function (ad) {
       ad.addEventListener('click', function (e) {
         e.preventDefault();
@@ -338,9 +334,9 @@
       });
     });
 
-    // ── General photocards (skip webcam grid — handled above) ───────────────
+    // General photocards (skip webcam grid)
     document.querySelectorAll('.photocard').forEach(function (card) {
-      if (card.closest('.webcam-grid')) return; // already wired
+      if (card.closest('.webcam-grid')) return;
       var img = card.querySelector('img.photo');
       if (!img) return;
       var cap = card.querySelector('.cap');
@@ -386,7 +382,7 @@
       img.style.display = 'block';
       setTimeout(function () { img.style.opacity = '1'; }, 10);
       loadingDiv.style.display = 'none';
-      dimsSpan.textContent = tempImg.width + ' × ' + tempImg.height + ' px';
+      dimsSpan.textContent = tempImg.width + ' \xd7 ' + tempImg.height + ' px';
     };
     tempImg.onerror = function () {
       loadingDiv.textContent = '// archive read error';
@@ -404,4 +400,20 @@
   window.prevPhoto = function () {
     if (_gallery.length < 2) return;
     _galleryIdx = (_galleryIdx - 1 + _gallery.length) % _gallery.length;
-    window.openPhoto(_gallery[_
+    window.openPhoto(_gallery[_galleryIdx].src, _gallery[_galleryIdx].cap);
+  };
+
+  window.nextPhoto = function () {
+    if (_gallery.length < 2) return;
+    _galleryIdx = (_galleryIdx + 1) % _gallery.length;
+    window.openPhoto(_gallery[_galleryIdx].src, _gallery[_galleryIdx].cap);
+  };
+
+  window.closePhoto = function () {
+    var overlay = document.getElementById('photo-overlay');
+    if (overlay) overlay.style.display = 'none';
+    _gallery    = [];
+    _galleryIdx = 0;
+  };
+
+})();
