@@ -224,58 +224,45 @@
     setTimeout(addLine, 400);
   });
 
-  // Auto-wire all photocard elements to open the photo viewer on click
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.photocard').forEach(function (card) {
-      var img = card.querySelector('img.photo');
-      if (!img) return;
-      var cap = card.querySelector('.cap');
-      var capText = cap ? cap.innerHTML : '';
-      card.style.cursor = 'zoom-in';
-      card.addEventListener('click', function (e) {
-        e.preventDefault();
-        window.openPhoto(img.src, capText);
-      });
-    });
-  });
+  // ── Photo Viewer: gallery state ──────────────────────────────────────────
+  var _gallery    = [];
+  var _galleryIdx = 0;
 
-  // Vintage 1993 Photo Viewer -- citynet03 B12 Archive
-  window.openPhoto = function(imageSrc, caption) {
-    var overlay = document.getElementById('photo-overlay');
-    var img = document.getElementById('photo-popup-img');
-    var loadingDiv = document.getElementById('photo-popup-loading');
-    var capDiv = document.getElementById('photo-popup-cap');
-    var dimsSpan = document.getElementById('photo-popup-dims');
+  function _ensureOverlay() {
+    if (document.getElementById('photo-overlay')) return;
+    var ov = document.createElement('div');
+    ov.id        = 'photo-overlay';
+    ov.setAttribute('onclick', 'if(event.target===this)closePhoto()');
+    ov.innerHTML =
+      '<div id="photo-popup">' +
+        '<div id="photo-popup-titlebar">' +
+          '<span>📷  CityNet Photo Viewer — citynet03 / B12 Archive</span>' +
+          '<button id="photo-popup-close" onclick="closePhoto()" title="Close">×</button>' +
+        '</div>' +
+        '<div id="photo-popup-menubar"><span>File</span> <span>View</span> <span>Help</span></div>' +
+        '<div id="photo-popup-body">' +
+          '<div id="photo-popup-loading">// retrieving from archive…</div>' +
+          '<img alt="" id="photo-popup-img" src="" style="display:none;"/>' +
+        '</div>' +
+        '<div id="photo-popup-nav" style="display:none;">' +
+          '<button id="photo-popup-prev" onclick="prevPhoto()">◄ PREV</button>' +
+          '<span id="photo-popup-nav-counter"></span>' +
+          '<button id="photo-popup-next" onclick="nextPhoto()">NEXT ►</button>' +
+        '</div>' +
+        '<div id="photo-popup-cap"></div>' +
+        '<div id="photo-popup-statusbar">' +
+          '<span class="sp">citynet03</span>' +
+          '<span class="sp">vol: B12 (degraded)</span>' +
+          '<span id="photo-popup-dims">Ready</span>' +
+        '</div>' +
+      '</div>';
+    document.body.appendChild(ov);
+  }
 
-    if (!overlay) return;
-
-    overlay.style.display = 'flex';
-    overlay.style.animation = 'none';
-    setTimeout(function() { overlay.style.animation = 'fadeIn 0.2s ease'; }, 10);
-    loadingDiv.style.display = 'block';
-    img.style.display = 'none';
-    img.style.opacity = '0';
-    capDiv.innerHTML = caption || '';
-    dimsSpan.textContent = 'retrieving...';
-
-    var tempImg = new Image();
-    tempImg.onload = function() {
-      img.src = imageSrc;
-      img.style.display = 'block';
-      setTimeout(function() { img.style.opacity = '1'; }, 10);
-      loadingDiv.style.display = 'none';
-      dimsSpan.textContent = tempImg.width + ' × ' + tempImg.height + ' px';
-    };
-    tempImg.onerror = function() {
-      loadingDiv.textContent = '// archive read error';
-      dimsSpan.textContent = 'ERROR';
-    };
-    tempImg.src = imageSrc;
-  };
-
-  window.closePhoto = function() {
-    var overlay = document.getElementById('photo-overlay');
-    if (overlay) overlay.style.display = 'none';
-  };
-
-})();
+  function _injectNavBar() {
+    // Add nav bar to existing overlays that were baked into HTML
+    if (document.getElementById('photo-popup-nav')) return;
+    var cap = document.getElementById('photo-popup-cap');
+    if (!cap) return;
+    var nav = document.createElement('div');
+    
