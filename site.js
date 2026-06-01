@@ -356,9 +356,12 @@
     if (dirCards.length > 1) {
       var dirGallery = [];
       dirCards.forEach(function (card) {
-        var img = card.querySelector('img.photo');
-        var cap = card.querySelector('.cap');
-        if (img) dirGallery.push({ src: img.src, cap: cap ? cap.innerHTML : '' });
+        // Full-size src and caption are in the card's onclick attribute
+        var onclick = card.getAttribute('onclick') || '';
+        var m = onclick.match(/openPhoto\(\s*'([^']+)'\s*,\s*'([\s\S]*)'\s*\)/);
+        var fullSrc = m ? m[1] : (card.querySelector('img.photo') || {src:''}).src;
+        var cap     = m ? m[2].replace(/\'/g, "'") : (card.querySelector('.cap') || {innerHTML:''}).innerHTML;
+        dirGallery.push({ src: fullSrc, cap: cap });
       });
       dirCards.forEach(function (card, i) {
         var fresh = card.cloneNode(true);
