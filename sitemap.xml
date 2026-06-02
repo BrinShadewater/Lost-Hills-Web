@@ -48,4 +48,12 @@
     <loc>https://losthills.net/public_works.html</loc>
     <priority>0.6</priority>
   </url>
-  <
+  <url>
+    <loc>https://losthills.net/emergency.html</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://losthills.net/links.html</loc>
+    <priority>0.4</priority>
+  </url>
+</urlset>
