@@ -390,6 +390,7 @@
     if (!overlay) return;
 
     overlay.style.display = 'flex';
+    overlay.scrollTop = 0;
     overlay.style.animation = 'none';
     setTimeout(function () { overlay.style.animation = 'fadeIn 0.2s ease'; }, 10);
     loadingDiv.style.display = 'block';
