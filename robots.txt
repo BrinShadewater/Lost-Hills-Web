@@ -29,4 +29,5 @@ Disallow: /restricted/
 User-agent: CCBot
 Disallow: /restricted/
 
-Sitemap: https://losthills.net/sitemap.xml
+User-agent: ChatGPT-User
+Disallow: /restric
