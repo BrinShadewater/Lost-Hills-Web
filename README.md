@@ -1,10 +1,10 @@
-# Lost Hills Web
+# Lost Hills Web 🏛️
 
 Static website for **Lost Hills Online**, the restored municipal information network of Lost Hills, Washington.
 
-The site is built as an in-world archive: city pages, public notices, local businesses, restricted records, civic infrastructure, and the visual texture of a dormant 1990s municipal web system brought back online.
+The site is built as an in-world archive: city pages, public notices, local businesses, restricted records, civic infrastructure, and the visual texture of a dormant 1990s municipal web system brought back online. It should feel like somebody found a backup tape in a filing cabinet and decided the town deserved one more login prompt.
 
-## What This Site Does
+## 📟 What This Site Does
 
 - Presents a fictional municipal web portal as if recovered from an old civic network.
 - Collects public city pages, business listings, council material, conference pages, and community notices.
@@ -12,7 +12,7 @@ The site is built as an in-world archive: city pages, public notices, local busi
 - Uses static HTML/CSS/JS so the artifact stays portable and durable.
 - Keeps the design language intentionally period-specific: banners, local ads, civic seals, tiled backgrounds, and practical page names.
 
-## Stack
+## 🧰 Stack
 
 - Static HTML
 - CSS
@@ -20,11 +20,11 @@ The site is built as an in-world archive: city pages, public notices, local busi
 - WebP image assets
 - Vercel deployment configuration
 
-## Repository Status
+## 🚦 Repository Status
 
 Static production artifact. Most changes are content, visual texture, links, or deployment metadata.
 
-## Local Preview
+## ⚙️ Local Preview
 
 Because this is a static site, you can preview it with any local static server.
 
@@ -34,7 +34,7 @@ npx serve .
 
 Then open the local URL printed by the command.
 
-## Project Map
+## 🗺️ Project Map
 
 ```text
 index.html          Home page
@@ -48,7 +48,7 @@ sitemap.xml
 vercel.json
 ```
 
-## Key Surfaces
+## 🔦 Key Surfaces
 
 - `index.html` sets the homepage and primary metadata.
 - `styles.css` carries the period UI language.
@@ -56,7 +56,7 @@ vercel.json
 - `restricted/` contains in-world archive material that should remain deliberate.
 - `assets/` contains the site's visual identity and faux-local ephemera.
 
-## Documentation
+## 📚 Documentation
 
 - `docs/PROJECT-BRIEF.md`
 - `docs/MAINTENANCE.md`
@@ -65,15 +65,15 @@ vercel.json
 - `SECURITY.md`
 - `CHANGELOG.md`
 
-## Content Notes
+## 🗄️ Content Notes
 
 The fiction depends on the details. Preserve the municipal/archive tone, date logic, internal links, and deliberately period-specific texture when editing.
 
-## Deployment
+## 🚀 Deployment
 
 The site is configured for static hosting. Keep canonical URLs, sitemap entries, and robots rules aligned with the deployed domain.
 
-## Review Checklist
+## ✅ Review Checklist
 
 - Preview locally.
 - Check changed links manually.
