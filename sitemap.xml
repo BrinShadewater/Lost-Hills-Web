@@ -52,4 +52,27 @@
   </url>
   <url>
     <loc>https://losthills.net/council.html</loc>
- 
+    <lastmod>2025-05-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://losthills.net/public_works.html</loc>
+    <lastmod>2025-05-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://losthills.net/emergency.html</loc>
+    <lastmod>2025-05-17</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://losthills.net/contact.html</loc>
+    <lastmod>2025-05-17</lastmod>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://losthills.net/links.html</loc>
+    <lastmod>2025-05-17</lastmod>
+    <priority>0.4</priority>
+  </url>
+</urlset>

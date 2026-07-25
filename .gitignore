@@ -1,0 +1,32 @@
+# Working files — not part of the public site
+uploads/
+assets/README.txt
+assets/Lost Hills Faded/
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.code-workspace
+
+# Build/tooling scratch (added 2026-07-25)
+.vercel/
+__pycache__/
+*.pyc
+
+# Interrupted WSL/sshfs transfer residue. These are orphaned inodes left when a
+# copy died partway; they are not site content and can be deleted outright.
+.fuse_hidden*
+
+# One-off audit reports, regenerated on demand
+ACTION-PLAN.md
+FULL-AUDIT-REPORT.md
+
+# Superseded assets kept locally for reference, not shipped
+assets/_unused/
+
+# Repair residue from the 2026-07-25 .git rebuild. Delete once the repair is trusted.
+.git.broken-20260725/

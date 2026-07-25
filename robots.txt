@@ -30,4 +30,18 @@ User-agent: CCBot
 Disallow: /restricted/
 
 User-agent: ChatGPT-User
-Disallow: /restric
+Disallow: /restricted/
+
+User-agent: Applebot-Extended
+Disallow: /restricted/
+
+User-agent: anthropic-ai
+Disallow: /restricted/
+
+User-agent: FacebookBot
+Disallow: /restricted/
+
+User-agent: Amazonbot
+Disallow: /restricted/
+
+Sitemap: https://losthills.net/sitemap.xml
