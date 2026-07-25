@@ -28,5 +28,14 @@ FULL-AUDIT-REPORT.md
 # Superseded assets kept locally for reference, not shipped
 assets/_unused/
 
+# Source originals behind the shipped .webp files. Confirmed 2026-07-25 as general
+# working assets that are not meant to be public. Only .webp ships: the repo tracks
+# 225 .webp and one .pdf in here, and zero .png or .jpg, so these 83 originals were
+# never part of the site. This repo is public and Vercel serves it, so keeping them
+# ignored means a stray `git add -A` cannot publish them by accident.
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+
 # Repair residue from the 2026-07-25 .git rebuild. Delete once the repair is trusted.
 .git.broken-20260725/
