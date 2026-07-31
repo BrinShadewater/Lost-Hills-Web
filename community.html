@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/><meta content="CommunityNet — the Lost Hills public message board, reopened after archive restoration. Local discussion, civic notices, and community posts from the CityNet B12 archive." name="description"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="width=1000" name="viewport"/>
 <title>CommunityNet :: Lost Hills Public Message Board</title>
 <link href="styles.css" rel="stylesheet"/>
 <style>
@@ -79,8 +79,7 @@
 <script>
 (function(){
   var _lastCat = 'index';
-  function cnNav(id, fromCat) {
-    if (fromCat) _lastCat = fromCat;
+  function cnShow(id) {
     var all = document.querySelectorAll('.cn-view');
     for (var i = 0; i < all.length; i++) all[i].style.display = 'none';
     var el = document.getElementById('cnv-' + id);
@@ -90,6 +89,14 @@
       if (p) p.style.display = 'block';
     }
     window.scrollTo(0, 0);
+  }
+  function cnNav(id, fromCat) {
+    if (fromCat) _lastCat = fromCat;
+    cnShow(id);
+    // mirror the view into the anchor so threads are linkable and Back pages the board
+    if (location.hash !== '#' + id && !(id === 'index' && !location.hash)) {
+      location.hash = id;
+    }
   }
   function cnPartial(title, catId) {
     _lastCat = catId || 'index';
@@ -111,7 +118,12 @@
   window.cnNav = cnNav;
   window.cnPartial = cnPartial;
   window.cnBack = cnBack;
-  document.addEventListener('DOMContentLoaded', function(){ cnNav('index'); });
+  window.addEventListener('hashchange', function () {
+    cnShow(location.hash.replace(/^#/, '') || 'index');
+  });
+  document.addEventListener('DOMContentLoaded', function(){
+    cnNav(location.hash.replace(/^#/, '') || 'index');
+  });
 })();
 </script>
 <!--
@@ -130,7 +142,7 @@
 </head>
 <body>
 <div class="shell">
-<div class="banner"><div class="banner-inner">
+<div class="banner" role="banner"><div class="banner-inner">
 <div class="banner-seal"><img alt="Seal" fetchpriority="high" height="96" loading="eager" src="assets/city-seal.webp" width="96"/></div>
 <div class="banner-title">
 <div class="banner-site-title">Lost Hills Online</div>
@@ -141,7 +153,7 @@
 </div></div>
 <div class="marquee"><span class="scroller">▸ COMMUNITYNET :: Lost Hills public message board   ·   moderated by the Clerk's Office   ·   some archived threads have been restored after deletion <span class="blink">_</span>    ·    ▸ COMMUNITYNET :: Lost Hills public message board   ·   moderated by the Clerk's Office   ·   some archived threads have been restored after deletion <span class="blink">_</span>    </span></div>
 <div class="body-wrap">
-<div class="sidebar">
+<div class="sidebar" role="navigation" aria-label="Site navigation">
 <ul class="navlist">
 <li><a class="navbtn" href="index.html"><span class="arr">&gt;</span>Home</a></li>
 <li><a class="navbtn" href="about.html"><span class="arr">&gt;</span>About Lost Hills</a></li>
@@ -181,7 +193,7 @@
 <a class="lh-bizcard" href="directory.html#jeffs" title="Jeff's Supermarket"><img alt="Jeff's Supermarket" src="assets/jeffssupermarketad.webp"/></a>
 <a class="lh-bizcard" href="directory.html#burgerchef" title="Burger Chef"><img alt="Burger Chef — Lost Hills" src="assets/burgerchefonline.webp"/></a>
 </div>
-<div class="content cn-wrap">
+<div class="content cn-wrap" role="main">
 <div class="crumbs">CityNet :&gt; <a href="index.html">Home</a> :&gt; <b>CommunityNet</b>
 </div>
 <div class="cn-guestbar">
@@ -3200,7 +3212,7 @@ Please do not share Shadewater access credentials.</p>
 <!-- /cnv-partial -->
 </div><!-- /content -->
 </div><!-- /body-wrap -->
-<div class="footer">
+<div class="footer" role="contentinfo">
 <div class="row">
 <div class="col"><b>Lost Hills Online</b> · CityNet pilot since 05.17.1993<br/>
 <span style="font-family:'Courier New',monospace; color:#444;">board last active: last updated: ?? / ?? / 199?  ·  mirror: citynet03  ·  volume: B12</span>

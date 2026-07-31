@@ -35,6 +35,7 @@
 .fcl-shell .input { color: #d0e8e0; }
 .fcl-shell .gap   { color: #152a28; font-style: italic; }
 .fcl-shell .clerk { color: #c87040; font-style: italic; }
+.fcl-shell .cor   { color: #c87040; }
 .fcl-shell hr     { border: none; border-top: 1px solid #0e2020; margin: 10px 0; }
 .fcl-msg {
   background: #080e0c;
@@ -53,7 +54,7 @@
 <body>
 <div class="shell">
 
-  <div class="banner"><div class="banner-inner">
+  <div class="banner" role="banner"><div class="banner-inner">
     <div class="banner-seal"><img src="../assets/city-seal.webp" width="96" height="96" alt="Seal"></div>
     <div class="banner-title">
       <h1>Lost Hills Online</h1>
@@ -66,7 +67,7 @@
   <div class="marquee"><span class="scroller">&#9656; /restricted/ &nbsp; &middot; &nbsp; FIELD CONTACT LOG &nbsp; &middot; &nbsp; TERMINAL LOCATION UNKNOWN &nbsp; &middot; &nbsp; ACCOUNT NOT ON PERSONNEL LIST <span class="blink">_</span>&nbsp;&nbsp;&nbsp;&nbsp;&middot;&nbsp;&nbsp;&nbsp;&nbsp;&#9656; /restricted/ &nbsp; &middot; &nbsp; FIELD CONTACT LOG &nbsp; &middot; &nbsp; TERMINAL LOCATION UNKNOWN &nbsp; &middot; &nbsp; ACCOUNT NOT ON PERSONNEL LIST <span class="blink">_</span>&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
 
   <div class="body-wrap">
-    <div class="sidebar">
+    <div class="sidebar" role="navigation" aria-label="Site navigation">
       <ul class="navlist">
         <li><a class="navbtn" href="../index.html"><span class="arr">&gt;</span>Home</a></li>
         <li><a class="navbtn" href="../about.html"><span class="arr">&gt;</span>About Lost Hills</a></li>
@@ -104,10 +105,10 @@
       </div>
     </div>
 
-    <div class="content">
+    <div class="content" role="main">
       <div class="crumbs">CityNet&nbsp;:&gt;&nbsp;<a href="../index.html">Home</a> :&gt; /restricted/ :&gt; <b style="color:#a83a3a;">[RESTORED &mdash; NEW]</b> field_contact_log</div>
 
-      <h2><span class="glyph">[#]</span>Restored File: CityNet Field Contact Log</h2>
+      <h2><span class="glyph" aria-hidden="true">[#]</span>Restored File: CityNet Field Contact Log</h2>
 
       <div class="notice warn">
         <span class="ttl">CLERK REVIEW NOTICE &mdash; D. WAKEMAN</span>
@@ -242,7 +243,7 @@
     </div>
   </div>
 
-  <div class="footer">
+  <div class="footer" role="contentinfo">
     <div class="row">
       <div class="col"><b>Lost Hills Online</b> &middot; CityNet pilot since 05.17.1993<br>
         <span style="font-family:'Courier New',monospace; color:#444;">file: field_contact_log.txt &nbsp;&middot;&nbsp; status: new entry, origin unknown &nbsp;&middot;&nbsp; volume: B12</span>

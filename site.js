@@ -85,7 +85,7 @@
       'VOLUME B12 DEGRADED';
     shell.insertBefore(bar, shell.firstChild);
     var st = document.createElement('style');
-    st.textContent = '#eacs-bar{background:#0e1408;color:#4a6a3a;font-family:"Courier New",monospace;font-size:9px;padding:3px 12px;letter-spacing:0.04em;text-align:center;border-bottom:1px solid #1e2e16;white-space:nowrap;overflow:hidden;}';
+    st.textContent = '#eacs-bar{background:#0e1408;color:#5a7a48;font-family:"Courier New",monospace;font-size:9px;padding:3px 12px;letter-spacing:0.04em;text-align:center;border-bottom:1px solid #1e2e16;white-space:nowrap;overflow:hidden;}';
     document.head.appendChild(st);
   });
 
@@ -110,6 +110,8 @@
     var s = ('000000' + v).slice(-6);
     counters.forEach(function (c) {
       c.innerHTML = '';
+      c.setAttribute('role', 'img');
+      c.setAttribute('aria-label', 'Visitor counter: ' + s);
       for (var i = 0; i < s.length; i++) {
         var sp = document.createElement('span');
         sp.textContent = s.charAt(i);
