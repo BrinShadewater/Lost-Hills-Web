@@ -147,7 +147,9 @@
       '#eacs-terminal .hl{color:#aad4aa;}',
       '#eacs-terminal .brt{color:#ddf0dd;}',
       '.eacs-cur{display:inline-block;animation:eacs-blink .7s step-end infinite;}',
-      '@keyframes eacs-blink{0%,100%{opacity:1}50%{opacity:0}}'
+      '@keyframes eacs-blink{0%,100%{opacity:1}50%{opacity:0}}',
+      '#eacs-skip{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-family:"Courier New",monospace;font-size:10px;color:#1e3a1e;letter-spacing:0.08em;cursor:pointer;}',
+      '#eacs-skip:hover{color:#5aaa5a;}'
     ].join('');
     document.head.appendChild(st);
 
@@ -156,7 +158,28 @@
     var terminal = document.createElement('div');
     terminal.id  = 'eacs-terminal';
     overlay.appendChild(terminal);
+    var skip = document.createElement('div');
+    skip.id = 'eacs-skip';
+    skip.textContent = '[ESC] abort playback';
+    overlay.appendChild(skip);
     document.body.appendChild(overlay);
+
+    var stepTimer = null;
+    var aborted   = false;
+    function dismiss(fast) {
+      if (aborted) return;
+      aborted = true;
+      if (stepTimer) clearTimeout(stepTimer);
+      document.removeEventListener('keydown', onEacsKey);
+      if (fast) overlay.style.transition = 'opacity 0.35s ease';
+      overlay.style.opacity = '0';
+      setTimeout(function () {
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, fast ? 400 : 1500);
+    }
+    function onEacsKey(e) { if (e.key === 'Escape') dismiss(true); }
+    document.addEventListener('keydown', onEacsKey);
+    overlay.addEventListener('click', function () { dismiss(true); });
 
     var HR = '--------------------------------------------------';
     function row(label, value, cls) {
@@ -191,6 +214,7 @@
     var BASE = 220;
 
     function addLine() {
+      if (aborted) return;
       if (idx >= lines.length) {
         var cur = document.createElement('span');
         cur.className   = 'eacs-cur';
@@ -198,17 +222,13 @@
         terminal.appendChild(cur);
         var blink = 0;
         var blinkInterval = setInterval(function() {
+          if (aborted) { clearInterval(blinkInterval); return; }
           blink++;
           cur.style.opacity = blink % 2 === 0 ? '1' : '0.2';
           if (blink >= 6) {
             clearInterval(blinkInterval);
             cur.style.opacity = '1';
-            setTimeout(function () {
-              overlay.style.opacity = '0';
-              setTimeout(function () {
-                if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
-              }, 1500);
-            }, 1000);
+            stepTimer = setTimeout(function () { dismiss(false); }, 1000);
           }
         }, 300);
         return;
@@ -220,10 +240,10 @@
       terminal.appendChild(div);
       overlay.scrollTop = overlay.scrollHeight;
       idx++;
-      setTimeout(addLine, BASE + (line.pause || 0));
+      stepTimer = setTimeout(addLine, BASE + (line.pause || 0));
     }
 
-    setTimeout(addLine, 400);
+    stepTimer = setTimeout(addLine, 400);
   });
 
   // ── Photo Viewer: gallery state ──────────────────────────────────────────
