@@ -39,3 +39,6 @@ assets/*.jpeg
 
 # Repair residue from the 2026-07-25 .git rebuild. Delete once the repair is trusted.
 .git.broken-20260725/
+
+# Session scratch from /impeccable runs - critique snapshots, consumed by the polish step
+.impeccable/
