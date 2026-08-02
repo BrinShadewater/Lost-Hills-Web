@@ -1,5 +1,7 @@
 # Lost Hills Web 🏛️
 
+![Licence](https://img.shields.io/badge/licence-all%20rights%20reserved-lightgrey?style=flat-square) ![Live](https://img.shields.io/badge/live-losthills.net-brightgreen?style=flat-square) ![Shadewater Labs](https://img.shields.io/badge/Shadewater%20Labs-%E2%9A%97%EF%B8%8F-6b4fa2?style=flat-square)
+
 Static website for **Lost Hills Online**, the restored municipal information network of Lost Hills, Washington.
 
 The site is built as an in-world archive: city pages, public notices, local businesses, restricted records, civic infrastructure, and the visual texture of a dormant 1990s municipal web system brought back online. It should feel like somebody found a backup tape in a filing cabinet and decided the town deserved one more login prompt.
@@ -80,3 +82,9 @@ The site is configured for static hosting. Keep canonical URLs, sitemap entries,
 - Review image paths and alt text where present.
 - Confirm new pages belong in `sitemap.xml`.
 - Keep the tone bureaucratic, local, and restored rather than modernized.
+
+---
+
+## 📄 Licence
+
+All rights reserved. This repository is public so the work can be read and referenced, not relicensed. The code, copy, and creative assets remain © Brin Shadewater / Shadewater Labs. If you want to use something here, ask.
