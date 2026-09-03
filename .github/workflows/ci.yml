@@ -1,0 +1,23 @@
+name: CI
+
+# A static site has no build to fail, so nothing here ever turned red. This runs the
+# README's review checklist as code: internal links resolve, every public page is in
+# the sitemap, and nothing under restricted/ is advertised.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Links resolve and sitemap matches the pages
+        run: python scripts/check_site.py

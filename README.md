@@ -78,9 +78,10 @@ The site is configured for static hosting. Keep canonical URLs, sitemap entries,
 ## ✅ Review Checklist
 
 - Preview locally.
-- Check changed links manually.
+- Run `python scripts/check_site.py` — internal links resolve, every public page is in
+  `sitemap.xml`, nothing under `restricted/` is advertised. CI runs the same check on
+  every pull request and push to `main`.
 - Review image paths and alt text where present.
-- Confirm new pages belong in `sitemap.xml`.
 - Keep the tone bureaucratic, local, and restored rather than modernized.
 
 ---
