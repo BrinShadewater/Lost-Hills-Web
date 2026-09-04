@@ -26,6 +26,8 @@ EXCLUDED_DIRS = {".git", "node_modules", "scripts", "docs", "uploads"}
 NOT_IN_SITEMAP = ("restricted/",)  # disallowed in robots.txt, so never advertised
 EXTERNAL = ("http:", "https:", "mailto:", "tel:", "#", "data:", "javascript:")
 REF_RE = re.compile(r"""(?:href|src)\s*=\s*["']([^"']+)["']""", re.IGNORECASE)
+# Fragment targets: id="" on anything, plus the site's legacy <a name=""> anchors.
+ID_RE = re.compile(r"""\s(?:id|name)\s*=\s*["']([^"']+)["']""", re.IGNORECASE)
 LOC_RE = re.compile(r"<loc>\s*([^<\s]+)\s*</loc>")
 
 
@@ -40,22 +42,36 @@ def html_pages() -> list[Path]:
     )
 
 
+def ids_in(page: Path, cache: dict[Path, set[str]]) -> set[str]:
+    if page not in cache:
+        cache[page] = set(ID_RE.findall(page.read_text(encoding="utf-8", errors="replace")))
+    return cache[page]
+
+
 def check_internal_refs(pages: list[Path]) -> list[str]:
     problems = []
+    ids: dict[Path, set[str]] = {}
     for page in pages:
         html = page.read_text(encoding="utf-8", errors="replace")
         for m in REF_RE.finditer(html):
             ref = m.group(1).strip()
-            if not ref or ref.startswith(EXTERNAL):
+            if not ref or ref.startswith(tuple(x for x in EXTERNAL if x != "#")):  # "#..." is a same-page anchor, handled below
                 continue
-            path = ref.split("#", 1)[0].split("?", 1)[0]
-            if not path:
-                continue
-            target = ROOT / path.lstrip("/") if path.startswith("/") else page.parent / path
-            if path.endswith("/"):
-                target = target / "index.html"
-            if not target.exists():
-                problems.append(f"{rel(page)}: '{ref}' does not resolve to a file")
+            path, _, fragment = ref.partition("#")
+            path = path.split("?", 1)[0]
+            if path:
+                target = ROOT / path.lstrip("/") if path.startswith("/") else page.parent / path
+                if path.endswith("/"):
+                    target = target / "index.html"
+                if not target.exists():
+                    problems.append(f"{rel(page)}: '{ref}' does not resolve to a file")
+                    continue
+            else:
+                target = page
+            # An anchor to a missing id lands at the top of the page and looks like
+            # a working link. The gate used to strip the fragment and never see it.
+            if fragment and target.suffix.lower() == ".html" and fragment not in ids_in(target, ids):
+                problems.append(f"{rel(page)}: '{ref}' points at an id that does not exist in {rel(target)}")
     return problems
 
 
