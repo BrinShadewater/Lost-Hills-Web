@@ -4,6 +4,7 @@ Notable changes to Lost Hills Web are tracked here.
 
 ## Unreleased
 
+- Sidebar ads are served at the size they render (320 px variants via `srcset`; the zoom popup keeps the full scan), every ad image has explicit dimensions, and the home page's section headings are `h2`s under the `h1`. Local mobile Lighthouse performance 76 → 94, LCP 6.9 s → 3.2 s (#9).
 - Added repository documentation, contribution guidance, security notes, issue templates, and pull request template.
 - Added project brief and maintenance documentation for the static archive site.
 - Added more expressive README headings and voice while keeping the documentation professional.
