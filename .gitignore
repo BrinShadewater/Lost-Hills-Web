@@ -40,5 +40,11 @@ assets/*.jpeg
 # Repair residue from the 2026-07-25 .git rebuild. Delete once the repair is trusted.
 .git.broken-20260725/
 
-# Session scratch from /impeccable runs - critique snapshots, consumed by the polish step
-.impeccable/
+# Session scratch from /impeccable runs - critique snapshots, consumed by the polish step.
+# The snapshots stay scratch; the adjudications do not. ignore.md records findings that were
+# argued and settled, and it is the file a later critique run reads so a closed question stops
+# being re-raised - so it is versioned while everything else in here is disposable.
+.impeccable/*
+!.impeccable/critique/
+.impeccable/critique/*
+!.impeccable/critique/ignore.md
