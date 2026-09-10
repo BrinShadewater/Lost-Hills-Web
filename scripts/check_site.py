@@ -26,6 +26,13 @@ EXCLUDED_DIRS = {".git", "node_modules", "scripts", "docs", "uploads"}
 NOT_IN_SITEMAP = ("restricted/",)  # disallowed in robots.txt, so never advertised
 EXTERNAL = ("http:", "https:", "mailto:", "tel:", "#", "data:", "javascript:")
 REF_RE = re.compile(r"""(?:href|src)\s*=\s*["']([^"']+)["']""", re.IGNORECASE)
+# REF_RE cannot reach a srcset: it wants `href` or `src` followed by `=`, and after `src` in
+# `srcset` comes `set=`. That is not a tuning miss, it is structural -- the pattern could
+# never have matched one -- and it left 63 srcset attributes across 15 pages unexamined,
+# which is to say every responsive image on the site.
+SRCSET_RE = re.compile(r"""\ssrcset\s*=\s*["']([^"']+)["']""", re.IGNORECASE)
+# And the gate only ever opened *.html, so styles.css's url() references were outside it too.
+CSS_URL_RE = re.compile(r"""url\(\s*['"]?([^'")]+?)['"]?\s*\)""", re.IGNORECASE)
 # Fragment targets: id="" on anything, plus the site's legacy <a name=""> anchors.
 ID_RE = re.compile(r"""\s(?:id|name)\s*=\s*["']([^"']+)["']""", re.IGNORECASE)
 LOC_RE = re.compile(r"<loc>\s*([^<\s]+)\s*</loc>")
@@ -42,6 +49,43 @@ def html_pages() -> list[Path]:
     )
 
 
+def srcset_refs(html: str):
+    """Every candidate URL in every srcset, stripped of its width/density descriptor.
+
+    `srcset="a-768w.webp 768w, a-1280w.webp 1280w"` is two references, not one string.
+    """
+    for m in SRCSET_RE.finditer(html):
+        for candidate in m.group(1).split(","):
+            parts = candidate.split()
+            if parts:
+                yield parts[0]
+
+
+def css_files() -> list[Path]:
+    return sorted(
+        p for p in ROOT.rglob("*.css")
+        if not (set(p.relative_to(ROOT).parts[:-1]) & EXCLUDED_DIRS)
+    )
+
+
+def check_css_refs() -> list[str]:
+    """url() targets resolve, relative to the stylesheet that names them."""
+    problems = []
+    for sheet in css_files():
+        css = sheet.read_text(encoding="utf-8", errors="replace")
+        for ref in CSS_URL_RE.finditer(css):
+            url = ref.group(1).strip()
+            if not url or url.startswith(EXTERNAL) or url.startswith("//"):
+                continue
+            path = url.split("?", 1)[0].split("#", 1)[0]
+            if not path:
+                continue
+            target = ROOT / path.lstrip("/") if path.startswith("/") else sheet.parent / path
+            if not target.exists():
+                problems.append(f"{rel(sheet)}: url('{url}') does not resolve to a file")
+    return problems
+
+
 def ids_in(page: Path, cache: dict[Path, set[str]]) -> set[str]:
     if page not in cache:
         cache[page] = set(ID_RE.findall(page.read_text(encoding="utf-8", errors="replace")))
@@ -53,8 +97,12 @@ def check_internal_refs(pages: list[Path]) -> list[str]:
     ids: dict[Path, set[str]] = {}
     for page in pages:
         html = page.read_text(encoding="utf-8", errors="replace")
-        for m in REF_RE.finditer(html):
-            ref = m.group(1).strip()
+        # One list, one resolution path: a srcset candidate is a reference like any other,
+        # and giving it a second code path is how the two drift apart.
+        refs = [m.group(1) for m in REF_RE.finditer(html)]
+        refs += list(srcset_refs(html))
+        for raw in refs:
+            ref = raw.strip()
             if not ref or ref.startswith(tuple(x for x in EXTERNAL if x != "#")):  # "#..." is a same-page anchor, handled below
                 continue
             path, _, fragment = ref.partition("#")
@@ -105,7 +153,7 @@ def check_sitemap(pages: list[Path]) -> list[str]:
 
 def main() -> int:
     pages = html_pages()
-    problems = check_internal_refs(pages) + check_sitemap(pages)
+    problems = check_internal_refs(pages) + check_css_refs() + check_sitemap(pages)
     for p in problems:
         print(f"FAIL  {p}")
     print(f"{len(pages)} page(s) checked, {len(problems)} problem(s).")
